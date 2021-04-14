@@ -48,7 +48,7 @@ export default {
     },
     getTemperature: function () {
       const _this = this;
-      axios.get("http://127.0.0.1:8000/api/temperature").then(function (response) {
+      axios.get("http://81.68.230.143:8000/api/temperature").then(function (response) {
         _this.tableData = response.data
 
         let times = Array()
@@ -68,13 +68,13 @@ export default {
             data: ['温度']
           },
           xAxis: {
-            data: times
+            data: times.slice(times.length - 10, times.length)
           },
           yAxis: {},
           series: [{
             name: '温度',
             type: 'line',
-            data: temperatures
+            data: temperatures.slice(temperatures.length - 10, temperatures.length)
           }]
         };
         myChart.setOption(option);
@@ -83,7 +83,7 @@ export default {
     deleteTemperature: function (row) {
       const _this = this
       // eslint-disable-next-line no-unused-vars
-      axios.delete("http://127.0.0.1:8000/api/temperature/" + row.id).then(function (response) {
+      axios.delete("http://81.68.230.143:8000/api/temperature/" + row.id).then(function (response) {
         _this.alert(row.cname + '删除成功', 'success', {
           // eslint-disable-next-line no-unused-vars
           callback: action => {
@@ -96,6 +96,15 @@ export default {
   },
   created() {
     this.getTemperature()
+  },
+  mounted() {
+    if (this.timer) {
+      clearInterval(this.timer)
+    } else {
+      this.timer = setInterval(() => {
+        this.getTemperature()
+      }, 1000)
+    }
   }
 }
 </script>
