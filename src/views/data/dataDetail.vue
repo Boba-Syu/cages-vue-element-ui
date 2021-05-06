@@ -16,7 +16,7 @@
     <el-col :span=8>
       <div class="grid-content bg-purple">
         <div>
-          <img src="http://192.168.199.153:8081/">
+          <img :src="ip">
           <el-button type="primary" @click="setMotion('OPEN_MOTION')" plain style="width: 260px">打开摄像头</el-button>
           <el-button type="danger" @click="setMotion('CLOSE_MOTION')" plain style="width: 260px">关闭摄像头</el-button>
         </div>
@@ -72,6 +72,7 @@ import echarts from "_echarts@4.9.0@echarts";
 export default {
   name: "dataDetail", data() {
     return {
+      ip: "http://192.168.199.153:8081",
       msg: "数据详情展示",
       currentTemperature: 0,
       temp: [
@@ -262,6 +263,12 @@ export default {
   created() {
     this.getTemperature()
     this.operationList()
+    let _this = this
+    // eslint-disable-next-line no-unused-vars
+    axios.get("http://81.68.230.143:8000/api/get+ip").then(function (response) {
+     // _this.ip = 'http://' + response.data.split((':'))[0] + ':8081'
+      console.log(_this.ip)
+    })
   },
   mounted() {
     if (this.timer) {
