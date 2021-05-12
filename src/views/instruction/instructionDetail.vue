@@ -27,7 +27,7 @@
         <br>
         <br>
         <el-button type="warning" @click="setMotion('HEAT_UP')" round>打开风扇</el-button>
-        <el-button type="warning" @click="setMotion('HEAT_DOWM')" round>关闭风扇</el-button>
+        <el-button type="warning" @click="setMotion('HEAT_DOWN')" round>关闭风扇</el-button>
         <br>
       </div>
     </el-col>
@@ -69,7 +69,7 @@
         </div>
       </div>
       <h1>执行时间设置：</h1>
-      <input type="datetime-local" step="01" v-model="task.timingTaskType" :name="task.timingTaskType"/>
+      <input type="datetime-local" step="01" v-model="task.createTime" :name="task.timingTaskType"/>
       <button @click="addTask">确定</button>
       <h1>详情信息: </h1>
       <el-input v-model="task.msg"></el-input>
@@ -200,7 +200,6 @@ export default {
       axios.get("http://81.68.230.143:8000/api/instruction/" + task).then(function (response) {
         if (response.data === 1) {
           console.log('操作成功...')
-          setTimeout(() => location.reload(), 500)
         } else {
           _this.$alert('请检查设备', '操作失败', {
             confirmButtonText: '确定',
